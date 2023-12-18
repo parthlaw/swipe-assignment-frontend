@@ -1,0 +1,12 @@
+{
+  "Labour": "hour",
+  "Raw Materials": "kilogram",
+  "Manufactured Goods": "unit",
+  "Consulting Services": "hour",
+  "Software Development": "project",
+  "Transportation": "mile",
+  "Maintenance": "service",
+  "Training": "session",
+  "Graphic Design": "project",
+  "Marketing Services": "campaign"
+}
