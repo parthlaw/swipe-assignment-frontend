@@ -11,6 +11,7 @@ import { addProduct, updateProduct } from "../../redux/productsSlice";
 import { updateInvoicesByProduct } from "../../redux/invoicesSlice";
 import productCategories from "../../utils/categories.json";
 import currencies from "../../utils/currencies.json";
+import currencyConverter from "../../utils/currencyConverter"
 const ProductForm = (props) => {
   const dispatch = useDispatch();
   const isEdit = props.edit;
@@ -72,10 +73,10 @@ const ProductForm = (props) => {
     if (isEdit) {
       const initialProd = getOneProduct(props.id);
       const priceDiff =
-        parseFloat(formData.price) - parseFloat(initialProd.price);
+        currencyConverter(parseFloat(formData.price),formData.currency,formData.currency) - currencyConverter(parseFloat(initialProd.price),initialProd.currency,formData.currency);
       dispatch(updateProduct({ id: props.id, updatedProduct: formData }));
       dispatch(
-        updateInvoicesByProduct({ productId: props.id, diff: priceDiff }),
+        updateInvoicesByProduct({ productId: props.id, diff: priceDiff, prodCurr:formData.currency }),
       );
       alert("Product updated successfuly 🥳");
     } else {
@@ -155,6 +156,7 @@ const ProductForm = (props) => {
                       }
                       className="btn btn-light my-1"
                       aria-label="Change Currency"
+                      value={formData.currency}
                     >
                       {Object.keys(currencies).map((currency, i) => (
                         <option key={i} value={currency}>

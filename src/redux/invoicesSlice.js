@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import convertCurrency from "../utils/currencyConverter";
 const invoicesSlice = createSlice({
   name: "invoices",
   initialState: [],
@@ -19,14 +19,14 @@ const invoicesSlice = createSlice({
       }
     },
     updateInvoicesByProduct: (state, action) => {
-      const { productId, diff } = action.payload;
+      const { productId, diff, prodCurr } = action.payload;
       state.forEach((invoice) => {
         const index = invoice?.items.findIndex(
           (item) => parseInt(item.itemId) === parseInt(productId),
         );
         if (index !== -1) {
           invoice.total = String(
-            (parseFloat(invoice.total) + parseFloat(diff)).toFixed(2),
+            (parseFloat(invoice.total) + convertCurrency(parseFloat(diff),prodCurr,invoice.currency)).toFixed(2),
           );
         }
       });
